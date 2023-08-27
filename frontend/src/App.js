@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+
+/*import './sidebar.css'
+import './app.css'
+import './main.css'*/
+import Notes from './Components/Tarefas/tarefa'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div id="app">
+      <aside>
+        <strong>Tarefa</strong>
+        <form>
+          <div className="input-block">
+            <label htmlFor="title">Titulo da Tarefa</label>
+            <input/>
+          </div>
+
+          <div className="input-block">
+            <label htmlFor="tarefa">Tarefa</label>
+            <textarea></textarea>
+          </div>
+
+          <button type="submit">Salvar</button>
+        </form>
+      </aside>
+      <main>
+        <ul>
+          <Notes />
+          <Notes />
+          <Notes />
+          <Notes />
+          <Notes />
+        </ul>
+      </main>
     </div>
   );
 }
