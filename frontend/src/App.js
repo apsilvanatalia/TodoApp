@@ -1,8 +1,8 @@
 import React from "react";
-
-/*import './sidebar.css'
+import './global.css'
+import './sidebar.css'
 import './app.css'
-import './main.css'*/
+import './main.css'
 import Notes from './Components/Tarefas/tarefa'
 
 function App() {
