@@ -1,24 +1,66 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+
 import './global.css'
 import './sidebar.css'
 import './app.css'
 import './main.css'
 import Notes from './Components/Tarefas/tarefa'
+import api from "./Components/services/api";
 
 function App() {
+  
+  const [title, setTitles] = useState('');
+  const [tarefa, setTarefas] = useState('');
+  const [allTarefas, setAllTarefas] = useState([]);
+
+  useEffect(()=>{
+    async function getTarefas(){
+      const response = await api.get('/tarefas',);
+
+      setAllTarefas(response.data);
+    }
+
+    getTarefas();
+
+  },[]);
+
+  async function handleSubmit(e){
+    e.preventDefault();
+
+    const response = await api.post('/tarefas', {
+      title,
+      tarefa,
+      status:false
+    });
+
+    setTitles('');
+    setTarefas('');
+
+    setAllTarefas([...allTarefas, response.data]);
+    
+  }
+
   return (
     <div id="app">
       <aside>
         <strong>Tarefa</strong>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="input-block">
             <label htmlFor="title">Titulo da Tarefa</label>
-            <input/>
+            <input 
+              require 
+              value={title}
+              onChange={e => setTitles(e.target.value)}
+            />
           </div>
 
           <div className="input-block">
             <label htmlFor="tarefa">Tarefa</label>
-            <textarea></textarea>
+            <textarea
+              require
+              value={tarefa}
+              onChange={e => setTarefas(e.target.value)}
+            />
           </div>
 
           <button type="submit">Salvar</button>
@@ -26,11 +68,9 @@ function App() {
       </aside>
       <main>
         <ul>
-          <Notes />
-          <Notes />
-          <Notes />
-          <Notes />
-          <Notes />
+          {allTarefas.map(data =>(
+            <Notes data={data}/>
+          ))}
         </ul>
       </main>
     </div>
