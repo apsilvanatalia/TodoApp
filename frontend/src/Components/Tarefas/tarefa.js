@@ -1,20 +1,18 @@
 import React from "react";
 
-function Tarefas(){
+function Tarefas({data}){
     return(
         <>
           <li className="tarefa-info">
             <div>
-              <strong>Aprender React</strong>
+              <strong>{data.title}</strong>
               <div>
                 x
               </div>
             </div>  
-            <textarea defaultValue="Lorem Ipsum is simply dummy text of the printing and typesetting industry."></textarea> 
+            <textarea defaultValue={data.tarefa}></textarea> 
             <span>!</span>
           </li>
-
-          
         </>
     )
 }
