@@ -23,7 +23,8 @@ module.exports = {
             status
         });
 
-        return response.status(200).json({success: "Tarefa criada"});
+        //return response.status(200).json({success: "Tarefa criada"});
+        return response.status(200).json(tarefaCreated);
     },
 
     //Deletar Tarefa
