@@ -22,7 +22,44 @@ function App() {
 
     getTarefas();
 
-  },[]);
+  },[setAllTarefas]);
+
+  /*const handleSubmit = async (e)=>{
+    e.preventDefault();
+    try{
+      const response = await api.post('/tarefas', {
+        title,
+        tarefa,
+        status:false
+      });
+      setAllTarefas(prev =>[...prev,response.data]);
+      setTitles('');
+      setTarefas('');
+    }catch(err){
+      console.log(err);
+    }
+    
+
+    setTitles('');
+    setTarefas('');
+
+    setAllTarefas([...allTarefas, response.data]);
+  }*/
+
+  /*
+  useEffect(()=>{
+    const getTarefas = async()=>{
+      try{
+        const response = await api.get('/tarefas',);
+        setAllTarefas(response.data);
+      }catch(err){
+        console.log(err);
+      }
+    }
+
+    getTarefas();
+
+  },[]);*/
 
   async function handleSubmit(e){
     e.preventDefault();
@@ -37,7 +74,6 @@ function App() {
     setTarefas('');
 
     setAllTarefas([...allTarefas, response.data]);
-    
   }
 
   return (
