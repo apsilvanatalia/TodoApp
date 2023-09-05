@@ -1,34 +1,34 @@
 import * as React from 'react';
 import Radio from '@mui/material/Radio';
+
 import './style.css'
+//import { makeStyles } from '@material-ui/core/styles';
 
 export default function FilterRadioButton({selectValue, handleFilter}) {
 
-  const controlProps = (item) =>({
-    checked: {},
-    //onChange: handleChange,
-    //value: item,
-    //name: 'color-radio-button-demo',
-    /*inputProps: { 
-        'aria-label': item ,
-
-    },*/
-    sx:{
+  /*const RadioButton = makeStyles({
+    root:{
       color: '#ffd3ca',
-      '&.Mui-checked': {
-        color: '#eb8f7a',
-      },
-    }
-  });
+        '&.Mui-checked': {
+          color: '#eb8f7a',
+        },
+    },
+    checked:{},
+  })((props) => <Radio color='default' {... props}/>);*/
 
   return (
     <div className='radioFilterOp'>
       <div >
-        <Radio
+        <Radio 
           checked={selectValue === 'all'}
           onChange={e => handleFilter(e.target)}
           value='all'
-          //{...controlProps('e')}
+          sx={{
+            color: '#ffd3ca',
+            '&.Mui-checked': {
+              color: '#eb8f7a',
+            },
+          }}
         />
         <span>All</span>
       </div>
@@ -38,7 +38,12 @@ export default function FilterRadioButton({selectValue, handleFilter}) {
           checked={selectValue === 'true'}
           onChange={e => handleFilter(e.target)}
           value='true'
-          //{...controlProps('e')}
+          sx={{
+            color: '#ffd3ca',
+            '&.Mui-checked': {
+              color: '#eb8f7a',
+            },
+          }}
         />
         <span>Finished</span>
       </div>
@@ -48,7 +53,12 @@ export default function FilterRadioButton({selectValue, handleFilter}) {
           checked={selectValue === 'false'}
           onChange={e => handleFilter(e.target)}
           value='false' 
-          //{...controlProps('e')}
+          sx={{
+            color: '#ffd3ca',
+            '&.Mui-checked': {
+              color: '#eb8f7a',
+            },
+          }}
         />
         <span>Not Finished</span>
       </div>
