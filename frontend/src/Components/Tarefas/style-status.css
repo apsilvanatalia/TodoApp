@@ -17,13 +17,13 @@ li.tarefa-info-status strong{
 }
 
 li.tarefa-info-status div div{
-    /*color: #ffeae6;*/
+    color: #ffeae6;
     color: #fabbad;
     cursor: pointer;
 }
 
 li.tarefa-info-status div div:hover{
-    /*color: #eb8f7a;*/
+    color: #eb8f7a;
     color: #fff;
     transition: 0.2s;
 }
@@ -31,7 +31,6 @@ li.tarefa-info-status div div:hover{
 li.tarefa-info-status #delete{
     color: #eb8f7a;
     cursor: pointer;
-    
 }
 
 li.tarefa-info-status #delete:hover{
