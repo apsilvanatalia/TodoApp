@@ -11,7 +11,7 @@ module.exports = {
 
     //Criar Tarefa
     async create(request, response){
-        const {title, tarefa, status} = request.body;
+        const {title, tarefa, conclusion, status} = request.body;
 
         if(!title || !tarefa){
             return response.status(400).json({error: "Preencher os campos de Titulo e de Tarefa"});
@@ -19,7 +19,8 @@ module.exports = {
 
         const tarefaCreated = await Tarefas.create({
             title, 
-            tarefa, 
+            tarefa,
+            conclusion, 
             status
         });
 

@@ -1,0 +1,32 @@
+aside div.datePickerOp{
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+    /*margin-left: 10px;*/
+    /*margin-right: 25px;*/
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+}
+
+aside .aaa{
+    font-size: 14px;
+    width: 90%;
+}
+
+aside .aaa input{
+    font-size: 14px;
+    color: #666;
+    border: 1px solid #eee;
+    width: 150px;
+    height: 45px;
+}
+
+aside div.datePickerOp label{
+    color: #acacac;
+    font-size: 14px;
+    font-weight: bold;
+    display: block;
+    margin-right: 25px;
+}

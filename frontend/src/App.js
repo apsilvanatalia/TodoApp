@@ -3,16 +3,19 @@ import React, {useState, useEffect} from "react";
 import Notes from './Components/Tarefas/tarefa'
 import api from "./Services/api";
 import FilterRadioButton from "./Components/Filter/filter-radio-button";
+import EndDatePicker from "./Components/DatePicker/date-picker";
 
 import './global.css'
 import './sidebar.css'
 import './app.css'
 import './main.css'
+import '../src/Components/DatePicker/style.css'
 
 function App() {
   
   const [title, setTitles] = useState('');
   const [tarefa, setTarefas] = useState('');
+  const [conclusion, setConclusion] = useState('');
   const [allTarefas, setAllTarefas] = useState([]);
   const [selectValue, setSelectValue] = useState('all');
 
@@ -46,6 +49,10 @@ function App() {
     }
   }
 
+  function handleDatePicker(e){
+    setConclusion(e.value);
+  }
+
   async function handleDelete(id){
     const deletedTarefa = await api.delete(`/tarefas/${id}`);
 
@@ -70,8 +77,11 @@ function App() {
     const response = await api.post('/tarefas', {
       title,
       tarefa,
+      conclusion,
       status:false
     });
+
+    
 
     setTitles('');
     setTarefas('');
@@ -119,7 +129,19 @@ function App() {
               onChange={e => setTarefas(e.target.value)}
             />
           </div>
-
+        
+          {/*<EndDatePicker/>*/}
+          <div className='datePickerOp'>
+            <label htmlFor="date">Conclusão</label>
+            <div className='inputDate' >
+              <div className='aaa'>
+                <input type="date"
+                  value={conclusion}
+                  onChange={e => setConclusion(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
           <button id="bnt-submit-form" type="submit">Salvar</button>
         </form>
         <FilterRadioButton

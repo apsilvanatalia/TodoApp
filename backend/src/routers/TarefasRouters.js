@@ -1,8 +1,8 @@
 const express = require('express');
 const routes = express.Router();
 
-const TarefasController = require('./controllers/TarefasController');
-const StatusControle = require('./controllers/StatusController');
+const TarefasController = require('../controllers/TarefasController');
+const StatusControle = require('../controllers/StatusController');
 
 //Retornar Tarefas
 routes.get('/tarefas', TarefasController.read);
