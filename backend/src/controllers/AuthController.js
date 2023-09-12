@@ -100,7 +100,7 @@ module.exports = {
         const passwordHash = await bcrypt.hash(password, salt);
     
         // create user
-        const user = new User({
+        const user = new Auth({
           name,
           email,
           password: passwordHash,
