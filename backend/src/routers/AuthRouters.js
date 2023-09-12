@@ -1,5 +1,9 @@
 const express = require('express');
 const routes = express.Router();
+const jwt = require("jsonwebtoken");
+
+const dotenv = require('dotenv');
+dotenv.config();
 
 const AuthController = require('../controllers/AuthController');
 
@@ -20,7 +24,9 @@ function checkToken(req, res, next) {
     }
   }
 
-app.post("/auth/login", AuthController.login);
-app.get("/auth/userCheck/:id", checkToken, AuthController.userCheck);
-app.post("/auth/register", AuthController.register);
-app.get("/auth/listUser/:username", AuthController.listUser);
+routes.post("/auth/login", AuthController.login);
+routes.get("/auth/userCheck/:id", checkToken, AuthController.userCheck);
+routes.post("/auth/register", AuthController.register);
+//routes.get("/auth/listUser/:username", AuthController.listUser);
+
+module.exports = routes;

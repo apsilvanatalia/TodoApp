@@ -1,9 +1,14 @@
 const Auth = require('../models/UserDB');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const dotenv = require('dotenv');
+dotenv.config();
 
 module.exports = {
     async login (req, res){
         const { email, password } = req.body;
-    
+        
         // validations
         if (!email) {
           return res.status(422).json({ msg: "O email é obrigatório!" });
@@ -14,8 +19,8 @@ module.exports = {
         }
     
         // check if user exists
-        const user = await User.findOne({ email: email });
-    
+        const user = await Auth.findOne({ email: email });
+        
         if (!user) {
           return res.status(404).json({ msg: "Usuário não encontrado!" });
         }
@@ -24,14 +29,15 @@ module.exports = {
         const checkPassword = await bcrypt.compare(password, user.password);
         const userId = user.id;
 
-    
+        
         if (!checkPassword) {
           return res.status(422).json({ msg: "Senha inválida" });
         }
     
         try {
-          const secret = process.env.SECRET;
-        
+          //const secret = process.env.SECRET;
+          const secret = 'YHSDFGHDSFH8423NJ';
+          
           const token = jwt.sign(
             {
               id: user._id,
@@ -50,7 +56,7 @@ module.exports = {
         const id = req.params.id;
     
         // check if user exists
-        const user = await User.findById(id, "-password");
+        const user = await Auth.findById(id, "-password");
     
         if (!user) {
           return res.status(404).json({ msg: "Usuário não encontrado!" });
@@ -83,7 +89,7 @@ module.exports = {
         }
     
         // check if user exists
-        const userExists = await User.findOne({ email: email });
+        const userExists = await Auth.findOne({ email: email });
     
         if (userExists) {
           return res.status(422).json({ msg: "Por favor, utilize outro e-mail!" });
@@ -109,12 +115,12 @@ module.exports = {
         }
     },
     
-    async listUser (req, res){
+    /*async listUser (req, res){
         const username = req.params.username;
     
         try {
           // Buscar usuário pelo nome de usuário
-          const user = await User.findOne({ name: username }, "-password");
+          const user = await Auth.findOne({ name: username }, "-password");
         
           if (!user) {
             return res.status(404).json({ msg: "Usuário não encontrado!" });
@@ -122,9 +128,14 @@ module.exports = {
       
           res.status(200).json({ user });
         } catch (error) {
-          res.status(500).json({ msg: error });
+          res.status(500).json({ msg: res.error });
         }
-    },
+        if (!user) {
+          return res.status(404).json({ msg: "Usuário não encontrado!" });
+        }
+    
+        res.status(200).json({ user });
+    },*/
 }
   
   
