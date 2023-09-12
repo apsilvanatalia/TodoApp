@@ -11,15 +11,16 @@ module.exports = {
 
     //Criar Tarefa
     async create(request, response){
-        const {title, tarefa, conclusion, status} = request.body;
+        const {title, description, conclusion, status} = request.body;
 
-        if(!title || !tarefa){
+        if(!title || !description){
             return response.status(400).json({error: "Preencher os campos de Titulo e de Tarefa"});
         }
 
         const tarefaCreated = await Tarefas.create({
             title, 
-            tarefa,
+            //tarefa,
+            description,
             conclusion, 
             status
         });
@@ -56,7 +57,8 @@ module.exports = {
             await item.save();
         }
         if(tarefa){
-            item.tarefa = tarefa;
+            //item.tarefa = tarefa;
+            item.description = tarefa;
 
             await item.save();
         }

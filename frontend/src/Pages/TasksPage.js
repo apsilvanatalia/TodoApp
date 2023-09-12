@@ -18,6 +18,7 @@ function Tasks() {
   const [conclusion, setConclusion] = useState('');
   const [allTarefas, setAllTarefas] = useState([]);
   const [selectValue, setSelectValue] = useState('all');
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     getTarefas();
@@ -28,6 +29,7 @@ function Tasks() {
     const response = await api.get('/tarefas',);
 
     setAllTarefas(response.data);
+    
   }
 
   async function loadTarefas(option) {

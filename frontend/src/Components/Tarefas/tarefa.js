@@ -37,7 +37,7 @@ function Tarefas({data, handleDelete, handleChangeStatus}){
 
   return(
     <>
-      <li className={data.status ? "tarefa-info-status" : "tarefa-info"}>
+      <li className={data.status  ? "tarefa-info-status" : "tarefa-info"}>
         <div>
           <strong>
             {data.title}
