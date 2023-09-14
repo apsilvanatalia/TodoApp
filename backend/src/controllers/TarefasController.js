@@ -47,7 +47,7 @@ module.exports = {
     //Modificar Tarefa
     async update(request, response){
         const{id} = request.params;
-        const{title,tarefa} = request.body;
+        const{title,description} = request.body;
 
         const item = await Tarefas.findOne({_id: id});
 
@@ -56,9 +56,9 @@ module.exports = {
 
             await item.save();
         }
-        if(tarefa){
+        if(description){
             //item.tarefa = tarefa;
-            item.description = tarefa;
+            item.description = description;
 
             await item.save();
         }

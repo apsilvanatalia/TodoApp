@@ -35,9 +35,9 @@ export default function FilterRadioButton({selectValue, handleFilter}) {
 
       <div>
         <Radio 
-          checked={selectValue === 'true'}
+          checked={selectValue === "Concluido"}
           onChange={e => handleFilter(e.target)}
-          value='true'
+          value='Concluido'
           sx={{
             color: '#ffd3ca',
             '&.Mui-checked': {
@@ -50,9 +50,9 @@ export default function FilterRadioButton({selectValue, handleFilter}) {
 
       <div>
         <Radio
-          checked={selectValue === 'false'}
+          checked={selectValue === 'Pendente'}
           onChange={e => handleFilter(e.target)}
-          value='false' 
+          value='Pendente' 
           sx={{
             color: '#ffd3ca',
             '&.Mui-checked': {
