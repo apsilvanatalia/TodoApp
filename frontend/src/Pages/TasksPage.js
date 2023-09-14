@@ -14,7 +14,7 @@ import '../Components/DatePicker/style.css'
 function Tasks() {
 
   const [title, setTitles] = useState('');
-  const [tarefa, setTarefas] = useState('');
+  const [description, setTarefas] = useState('');
   const [conclusion, setConclusion] = useState('');
   const [allTarefas, setAllTarefas] = useState([]);
   const [selectValue, setSelectValue] = useState('all');
@@ -29,7 +29,8 @@ function Tasks() {
     const response = await api.get('/tarefas',);
 
     setAllTarefas(response.data);
-    
+
+    console.log(userId)
   }
 
   async function loadTarefas(option) {
@@ -78,9 +79,9 @@ function Tasks() {
 
     const response = await api.post('/tarefas', {
       title,
-      tarefa,
+      description,
       conclusion,
-      status: false
+      status: "Pendente"
     });
 
 
@@ -101,12 +102,12 @@ function Tasks() {
     function enableSubmitButton() {
       let btn = document.getElementById('bnt-submit-form');
       btn.style.background = '#ffd3ca';
-      if (title && tarefa) {
+      if (title && description) {
         btn.style.background = '#eb8f7a';
       }
     }
     enableSubmitButton();
-  }, [title, tarefa]);
+  }, [title, description]);
 
   return (
     <div id="app">
@@ -124,10 +125,10 @@ function Tasks() {
           </div>
 
           <div className="input-block">
-            <label htmlFor="tarefa">Tarefa</label>
+            <label htmlFor="description">Tarefa</label>
             <textarea
               require
-              value={tarefa}
+              value={description}
               onChange={e => setTarefas(e.target.value)}
             />
           </div>

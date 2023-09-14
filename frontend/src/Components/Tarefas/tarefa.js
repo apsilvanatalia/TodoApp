@@ -30,14 +30,14 @@ function Tarefas({data, handleDelete, handleChangeStatus}){
 
     if(changedTarefa && changedTarefa !== tarefa){
       await api.patch(`tarefas/${data._id}`,{
-        tarefa: changedTarefa,
+        description: changedTarefa,
       });
     }
   }
 
   return(
     <>
-      <li className={data.status  ? "tarefa-info-status" : "tarefa-info"}>
+      <li className={data.status == "Concluido"  ? "tarefa-info-status" : "tarefa-info"}>
         <div>
           <strong>
             {data.title}
@@ -52,11 +52,11 @@ function Tarefas({data, handleDelete, handleChangeStatus}){
         </div>  
 
         <textarea 
-          defaultValue={data.tarefa}
-          disabled={data.status ? true : false}
+          defaultValue={data.description}
+          disabled={data.status == "Concluido" ? true : false}
           onClick={e => handleEdit(e.target, data.status)}
           onChange={e => setChangedTarefa(e.target.value)}
-          onBlur={e => handleSaveTarefa(e.target, data.Tarefa)}
+          onBlur={e => handleSaveTarefa(e.target, data.description)}
         />
         
         <span>

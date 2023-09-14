@@ -35,8 +35,7 @@ module.exports = {
         }
     
         try {
-          //const secret = process.env.SECRET;
-          const secret = 'YHSDFGHDSFH8423NJ';
+          const secret = process.env.SECRET;
           
           const token = jwt.sign(
             {

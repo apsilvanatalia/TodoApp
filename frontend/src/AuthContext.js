@@ -4,15 +4,22 @@ import axios from "axios";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     // Verifique se há um token salvo no localStorage
-    const token = localStorage.getItem("token");
+    const savedToken = localStorage.getItem("token");
 
+    if (savedToken) {
+      setToken(savedToken);
+    }
+  }, []);
+
+  useEffect(() => {
     if (token) {
       // Faça uma chamada ao backend para verificar o token e obter os dados do usuário
-      axios.get("/auth/userCheck", {
+      axios.get("http://localhost:3333/auth/userCheck", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -24,24 +31,27 @@ export const AuthProvider = ({ children }) => {
         console.error("Erro ao verificar token:", error);
       });
     }
-  }, []);
+  }, [token]);
 
-  const login = (token, userData) => {
-    setUser(userData);
-
+  const login = (newToken) => {
+    setToken(newToken);
     // Salve o token no localStorage
-    localStorage.setItem("token", token);
+    localStorage.setItem("token", newToken);
   };
 
   const logout = () => {
+    setToken(null);
     setUser(null);
-
     // Remova o token do localStorage
     localStorage.removeItem("token");
   };
 
+  const isAuthenticated = () => {
+    return !!token; // Verifica se há um token válido
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ token, user, login, logout, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

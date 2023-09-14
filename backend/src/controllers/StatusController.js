@@ -17,10 +17,10 @@ module.exports = {
         
         const tarefa = await Tarefas.findOne({ _id: id});
 
-        if(tarefa.status){
-            tarefa.status = false;
+        if(tarefa.status == "Concluido"){
+            tarefa.status = "Pendente";
         }else{
-            tarefa.status = true;
+            tarefa.status = "Concluido";
         }
 
         await tarefa.save();
