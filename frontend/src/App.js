@@ -5,7 +5,7 @@ import Tasks from "./Pages/TasksPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  
   useEffect(() => {
     // Verifique se há um token salvo no localStorage
     const token = localStorage.getItem('token');
@@ -19,7 +19,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/tasks" element={<Tasks />} />
+        <Route path="/tasks" element={isAuthenticated ? <Tasks /> : <Navigate to = "/login" />} />
       </Routes>
     </Router>
   );

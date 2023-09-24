@@ -4,9 +4,9 @@ module.exports = {
 
     //Verificar status
     async read(request, response){
-        const status = request.query;
+        const query = request.query;
 
-        const statusTarefas = await Tarefas.find(status);
+        const statusTarefas = await Tarefas.find(query);
 
         return response.json(statusTarefas);
     },

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Notes from '../Components/Tarefas/tarefa'
+import Menu from '../Components/Menu/menu'
 import api from "../Services/api";
 import FilterRadioButton from "../Components/Filter/filter-radio-button";
 import EndDatePicker from "../Components/DatePicker/date-picker";
@@ -20,21 +21,24 @@ function Tasks() {
   const [selectValue, setSelectValue] = useState('all');
   const userId = localStorage.getItem("userId");
 
+  var today = new Date().toISOString().split('T')[0];
+
   useEffect(() => {
     getTarefas();
-
+    today = new Date().toISOString().split('T')[0];
+    
   }, []);
 
   async function getTarefas() {
-    const response = await api.get('/tarefas',);
+    const response = await api.get(`/tarefas/${userId}`,);
 
     setAllTarefas(response.data);
 
     console.log(userId)
   }
 
-  async function loadTarefas(option) {
-    const params = { status: option };
+  async function loadTarefas(option,userId) {
+    const params = { status: option, userId:userId };
     const response = await api.get('/status', { params });
 
     if (response) {
@@ -46,7 +50,7 @@ function Tasks() {
     setSelectValue(e.value);
 
     if (e.checked && e.value !== 'all') {
-      loadTarefas(e.value);
+      loadTarefas(e.value,userId);
     } else {
       getTarefas();
     }
@@ -81,13 +85,13 @@ function Tasks() {
       title,
       description,
       conclusion,
-      status: "Pendente"
+      status: "Pendente",
+      userId,
     });
-
-
 
     setTitles('');
     setTarefas('');
+    setConclusion('');
 
     if (selectValue !== 'all') {
       getTarefas();
@@ -95,22 +99,25 @@ function Tasks() {
     } else {
       setAllTarefas([...allTarefas, response.data]);
     }
-
   }
 
   useEffect(() => {
     function enableSubmitButton() {
       let btn = document.getElementById('bnt-submit-form');
       btn.style.background = '#ffd3ca';
-      if (title && description) {
+      if (title && description && conclusion) {
         btn.style.background = '#eb8f7a';
+        
       }
     }
     enableSubmitButton();
-  }, [title, description]);
+  }, [title, description, conclusion]);
 
   return (
     <div id="app">
+      
+      <Menu/>
+
       <aside>
         <strong>Tarefa</strong>
         <form onSubmit={handleSubmit}>
@@ -139,6 +146,8 @@ function Tasks() {
             <div className='inputDate' >
               <div className='aaa'>
                 <input type="date"
+                  require
+                  min={today}
                   value={conclusion}
                   onChange={e => setConclusion(e.target.value)}
                 />

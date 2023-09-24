@@ -1,54 +1,86 @@
-import React, {useState} from 'react';
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import "./login.css"; //Importa seu arquivo CSS para estilização
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import api from "../Services/api";
+import { useUser } from '../Components/UserContext/userContext';
+
+import './login.css';
 
 const Login = () => {
+  const { setUserId } = useUser();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoginForm, setIsLoginForm] = useState(true);
-  const [errorMessage, setErrorMessage] = useState(""); //Estado para mensagem de erro
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:3333/auth/login", {
+      const response = await api.post('/auth/login', {
         email,
         password,
       });
+      const { token, userId } = response.data;
 
-      console.log(response.data); //Mensagem de sucesso de login
+      // Armazene o token e o userId no localStorage
+      localStorage.setItem('token', token);
+      localStorage.setItem('userId', userId);
 
-      // Navegue até o painel após login bem-sucedido
-      navigate("/tasks");
+      // Define o userId no contexto
+      setUserId(userId);
+
+      // Navegue até o painel após o login bem-sucedido
+      navigate('/tasks');
     } catch (error) {
-      setErrorMessage(error.response.data.msg); // Define mensagem de erro do backend
+      setErrorMessage(error.response.data.msg);
     }
   };
 
   const handleRegister = async () => {
     try {
-      const response = await axios.post("http://localhost:3333/auth/register", {
+      // Verifique se a senha e a confirmação de senha correspondem
+      if (password !== confirmPassword) {
+        setErrorMessage('As senhas não coincidem.');
+        return;
+      }
+
+      const response = await api.post('/auth/register', {
         name,
         email,
         password,
-        confirmpassword: confirmPassword,
+        confirmpassword: confirmPassword, // Envie como "confirmpassword"
       });
 
-      console.log(response.data); //Mensagem de sucesso de registro
+      console.log(response.data); // Mensagem de sucesso de registro
+
+      // Limpe os campos após o registro bem-sucedido
+      clearFields();
+
+      // Alterne para o modo de login após o registro bem-sucedido
+      setIsLoginForm(true);
+
+      // Limpe a mensagem de erro
+      setErrorMessage('');
 
       // Navegue até a página de login após o registro bem-sucedido
-      navigate("/login");
+      navigate('/login');
     } catch (error) {
-      setErrorMessage(error.response.data.msg); // Define mensagem de erro do backend
+      setErrorMessage(error.response.data.msg);
     }
   };
 
   const toggleForm = () => {
-    setIsLoginForm(!isLoginForm); // Alterna entre os formulários de login e registro
-    setErrorMessage(""); // Limpa mensagem de erro ao alternar
+    setIsLoginForm(!isLoginForm);
+    setErrorMessage('');
+  };
+
+  const clearFields = () => {
+    setEmail('');
+    setPassword('');
+    setName('');
+    setConfirmPassword('');
   };
 
   return (
@@ -70,7 +102,11 @@ const Login = () => {
           />
           <button onClick={handleLogin}>Login</button>
           <p className="error-message">{errorMessage}</p>
-           <p>Ainda não tem uma conta? <span className="register-link" onClick={toggleForm}>Criar uma conta </span>
+          <p>
+            Ainda não tem uma conta?{' '}
+            <span className="register-link" onClick={toggleForm}>
+              Criar uma conta
+            </span>
           </p>
         </div>
       ) : (
@@ -102,9 +138,12 @@ const Login = () => {
           />
           <button onClick={handleRegister}>Criar conta!</button>
           <p className="error-message">{errorMessage}</p>
-          
-            <p>Já tem uma conta?  <span className="register-link" onClick={toggleForm}>Fazer login
-          </span></p>
+          <p>
+            Já tem uma conta?{' '}
+            <span className="register-link" onClick={toggleForm}>
+              Fazer login
+            </span>
+          </p>
         </div>
       )}
     </div>
