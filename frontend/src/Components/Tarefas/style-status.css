@@ -10,10 +10,15 @@ li.tarefa-info-status{
     padding: 20px 20px 10px 20px;
 }
 
-li.tarefa-info-status strong{
+li.tarefa-info-status textarea#title{
     display: block;
     font-size: 16px;
+    font-weight: bold;
     color: #fff;
+    border: 0;
+    height: 32px;
+    background: #eb8f7a;
+    resize: none;
 }
 
 li.tarefa-info-status div div{
@@ -38,7 +43,7 @@ li.tarefa-info-status #delete:hover{
     transition: 0.2s;
 }
 
-li.tarefa-info-status textarea{
+li.tarefa-info-status textarea#description{
     padding: 7px;
     margin-top: 7px;
     margin-bottom: 5px;

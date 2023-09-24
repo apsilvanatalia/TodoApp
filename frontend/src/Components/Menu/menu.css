@@ -1,0 +1,50 @@
+menu {
+    margin-left: 0px;
+    margin-top: 25px;
+    position: fixed;
+}
+
+menu ul{
+    list-style-type: none;
+}
+
+menu ul li span{
+    list-style-type: none;
+    background-color: #fff;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+menu ul li span:hover{
+    list-style-type: none;
+    background-color: #eb8f7a;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+a{
+    color: inherit;
+}
+
+menu button{
+    background-color: #ffffff00;
+    border: none;
+    cursor: pointer;
+}
+
+menu button{
+    background-color: #ffffff00;
+    border: none;
+    cursor: pointer;
+}

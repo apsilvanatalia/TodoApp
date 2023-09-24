@@ -5,7 +5,7 @@ const TarefasController = require('../controllers/TarefasController');
 const StatusControle = require('../controllers/StatusController');
 
 //Retornar Tarefas
-routes.get('/tarefas', TarefasController.read);
+routes.get('/tarefas/:userId', TarefasController.read);
 
 //Criar Tarefa
 routes.post('/tarefas', TarefasController.create);

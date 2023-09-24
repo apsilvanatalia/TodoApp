@@ -1,5 +1,6 @@
-aside{
+ aside{
     width: 320px;
+    margin-left: 60px;
     margin-bottom: 30px;
     background: #fff;
     box-shadow: 0 0 14px 0 rgba(0,0,0,0.2);

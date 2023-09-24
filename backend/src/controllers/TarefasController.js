@@ -4,25 +4,29 @@ module.exports = {
     
     //Retornar Tarefas
     async read(request, response){
-        const tarefasList = await Tarefas.find();
+        const userId = request.params.userId;
+
+        const tarefasList = await Tarefas.find({
+            userId
+        });
 
         return response.json(tarefasList);
     },
 
     //Criar Tarefa
     async create(request, response){
-        const {title, description, conclusion, status} = request.body;
+        const {title, description, conclusion, status, userId} = request.body;
 
-        if(!title || !description){
+        if(!title || !description || !conclusion){
             return response.status(400).json({error: "Preencher os campos de Titulo e de Tarefa"});
         }
 
         const tarefaCreated = await Tarefas.create({
             title, 
-            //tarefa,
             description,
             conclusion, 
-            status
+            status,
+            userId
         });
 
         //return response.status(200).json({success: "Tarefa criada"});
