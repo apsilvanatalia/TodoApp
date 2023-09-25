@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
-import Menu from "./Menu";
+
 import ReactApexChart from 'react-apexcharts';
 
 import api from "../Services/api";
@@ -18,7 +17,7 @@ const Dashboard = () => {
 
   const fetchTasks = useCallback(async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/tasks/user/${userId}`);
+      const response = await api.get(`/tasks/user/${userId}`);
       setTasks(response.data);
       setChartData(response.data);
     } catch (error) {
@@ -28,7 +27,7 @@ const Dashboard = () => {
 
   const fetchMonthlyTasks = useCallback(async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/tasks/months/${userId}`);
+      const response = await api.get(`/tasks/months/${userId}`);
       setBarChartData(response.data);
 
       const pendenteData = response.data.map(item => item.pendente);
@@ -188,7 +187,7 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Menu userName="Seu Nome" />
+      
       <div id="chart">
         <ReactApexChart options={chartOptions} series={chartSeries} type="pie" width={380} />
       </div>

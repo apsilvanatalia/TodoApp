@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-import Notes from '../Components/Tarefas/tarefa'
-import Menu from '../Components/Menu/menu'
+import Notes from '../Components/Tarefas/tarefa';
+import Menu from '../Components/Menu/menu';
 import api from "../Services/api";
 import FilterRadioButton from "../Components/Filter/filter-radio-button";
 import EndDatePicker from "../Components/DatePicker/date-picker";
