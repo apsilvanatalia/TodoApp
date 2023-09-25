@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
-
 import ReactApexChart from 'react-apexcharts';
 
 import api from "../Services/api";
+
+import Menu from '../Components/Menu/menu'
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
@@ -187,7 +188,7 @@ const Dashboard = () => {
 
   return (
     <div>
-      
+      <Menu/>
       <div id="chart">
         <ReactApexChart options={chartOptions} series={chartSeries} type="pie" width={380} />
       </div>
