@@ -1,4 +1,82 @@
-menu {
+/* Estilização para o menu lateral */
+nav {
+    background-color: #007bff; /* Cor de fundo do menu */
+    position: fixed; /* Mantém o menu fixo na página */
+    top: 0;
+    left: 0;
+    height: 100%; /* Altura do menu ocupando toda a altura da página */
+    width: 150px; /* Largura do menu */
+    display: flex; /* Usa um layout flexível para organizar os elementos internos */
+    flex-direction: column; /* Organiza os elementos verticalmente */
+    align-items: center; /* Alinha os elementos ao centro horizontalmente */
+    justify-content: space-between; /* Espaçamento uniforme entre os elementos */
+    padding: 20px 0; /* Preenchimento superior e inferior */
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2); /* Sombra à direita do menu */
+}
+
+/* Estilização para a lista de links */
+nav ul {
+  list-style-type: none; /* Remove marcadores de lista */
+  padding: 0;
+  margin: 0;
+  display: flex; /* Usa um layout flexível para organizar os links */
+  flex-direction: column; /* Organiza os links verticalmente */
+  align-items: center; /* Alinha os links ao centro horizontalmente */
+}
+
+/* Estilização para os itens da lista */
+nav li {
+  margin-bottom: 30px; /* Espaçamento entre os itens da lista (links) */
+}
+
+/* Estilização para os links */
+.nav-link {
+  text-decoration: none; /* Remove a decoração de texto (sublinhado) */
+  color: #fff; /* Cor do texto dos links */
+  transition: color 0.3s; /* Transição de cor suave quando passar o mouse */
+  display: flex; /* Usa um layout flexível para alinhar o ícone e o texto */
+  align-items: center; /* Centraliza verticalmente o ícone e o texto */
+  padding: 10px; /* Espaçamento interno dos links */
+  border-radius: 8px; /* Borda arredondada nos links */
+}
+
+/* Estilização para os links ao passar o mouse */
+.nav-link:hover {
+  color: #eb8f7a; /* Cor do texto dos links ao passar o mouse */
+  pointer-events: all; /* Torna os links clicáveis ao passar o mouse */
+}
+
+/* Estilização para os ícones */
+.nav-icon {
+  font-size: 24px; /* Tamanho do ícone */
+  margin-right: 10px; /* Espaçamento entre o ícone e o texto */
+}
+
+/* Estilização para o texto */
+.nav-text {
+  font-size: 14px; /* Tamanho do texto */
+}
+
+/* Estilização para o botão de logout */
+nav button {
+  background-color: transparent; /* Fundo transparente */
+  border: none; /* Sem borda */
+  cursor: pointer; /* Mostra o cursor como ponteiro ao passar o mouse */
+  outline: none; /* Remove a borda de foco ao clicar no botão */
+}
+
+/* Estilização para os ícones do menu */
+.nav-icons {
+  font-size: 24px; /* Tamanho dos ícones do menu */
+}
+
+/* Estilização para a página selecionada */
+.nav-link.active {
+  background-color: #333; /* Fundo cinza escuro para a página selecionada */
+  color: #fff; /* Texto branco para a página selecionada */
+}
+
+/*menu {
     margin-left: 0px;
     margin-top: 25px;
     position: fixed;
@@ -47,4 +125,4 @@ menu button{
     background-color: #ffffff00;
     border: none;
     cursor: pointer;
-}
+}*/

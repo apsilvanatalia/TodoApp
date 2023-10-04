@@ -12,6 +12,16 @@
 @media (max-width: 1000px) {
     aside {
         position: relative;
+        margin-left: 150px;
+        margin-right: 50px;
+    }
+}
+
+@media (max-width: 600px) {
+    aside {
+        position: relative;
+        margin-left: 150px;
+        margin-right: 50px;
     }
 }
 

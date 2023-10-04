@@ -18,6 +18,7 @@ li.tarefa-info-status textarea#title{
     border: 0;
     height: 32px;
     background: #eb8f7a;
+    width: 100%;
     resize: none;
 }
 
@@ -60,12 +61,33 @@ li.tarefa-info-status textarea:hover{
     cursor: default;
 }
 
+li.tarefa-info-status .conclusion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Estilo para o texto "Data de Conclusão:" em branco quando estiver concluído */
+li.tarefa-info-status label {
+    color: #fff !important;
+    font-weight: bold;
+}
+
+/* Estilo para o input do calendário quando estiver concluído */
+li.tarefa-info-status input[type="date"] {
+    border: 1px solid #ffffff;
+    padding: 5px;
+    border-radius: 5px;
+    color: #eb8f7a;
+    background: rgba(255, 255, 255, 0.7);
+}
+
 li.tarefa-info-status span{
     color: #fabbad;
     cursor: pointer;
 }
 
 li.tarefa-info-status span:hover{
-    color: #eb8f7a;
+    color: #fff;
     transition: 0.2s;
 }

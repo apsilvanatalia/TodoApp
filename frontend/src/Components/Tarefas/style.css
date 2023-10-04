@@ -16,8 +16,8 @@ li.tarefa-info textarea#title{
     font-weight: bold;
     color: #333;
     border: 0;
+    height: 32px;
     background: #fff;
-    height: 20px;
     width: 100%;
     resize: none;
 }
@@ -59,6 +59,26 @@ li.tarefa-info textarea#description{
 
 li.tarefa-info textarea:hover {
     cursor: default;
+}
+
+li.tarefa-info .conclusion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Estilo para o texto "Data de Conclusão:" em laranja escuro e negrito */
+li.tarefa-info label {
+    color: rgb(235, 143, 122) !important;
+    font-weight: bold;
+}
+
+/* Estilo para o input do calendário */
+li.tarefa-info input[type="date"] {
+    border: 1px solid #eb8f7a;
+    padding: 5px;
+    border-radius: 5px;
+    color: #eb8f7a;
 }
 
 li.tarefa-info span{

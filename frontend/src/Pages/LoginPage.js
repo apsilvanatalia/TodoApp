@@ -32,7 +32,7 @@ const Login = () => {
       setUserId(userId);
 
       // Navegue até o painel após o login bem-sucedido
-      navigate('/tasks');
+      navigate('/dashboard');
     } catch (error) {
       setErrorMessage(error.response.data.msg);
     }
