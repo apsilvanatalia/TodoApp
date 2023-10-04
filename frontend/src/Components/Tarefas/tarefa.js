@@ -14,17 +14,14 @@ function Tarefas({data, handleDelete, handleChangeStatus}){
     formatCompletionDate(data.conclusion) || ''
   );
 
-  // Referências para os elementos textarea de título e descrição
-  const titleTextareaRef = useRef(null);
-  const descriptionTextareaRef = useRef(null);
+  const minDate = new Date();
+  minDate.setDate(minDate.getDate() - 1); // Define a data mínima como um dia antes do dia atual
 
   // Função para lidar com a edição dos campos de texto
   async function handleEdit(e, status) {
-    
-      e.style.cursor = 'text';
-      e.style.borderRadius = '5px';
-      e.style.boxShadow = '0px 0px 1.5px 0px inset gray';
-    
+    e.style.cursor = 'text';
+    e.style.borderRadius = '5px';
+    e.style.boxShadow = '0px 0px 1.5px 0px inset gray';
   }
 
   // Função para formatar a data de conclusão da tarefa
@@ -74,7 +71,8 @@ function Tarefas({data, handleDelete, handleChangeStatus}){
     const currentDate = moment().format('YYYY-MM-DD');
     setChangedCompletionDate(currentDate);
 
-    await handleChangeStatus(data._id) && updateTask({ conclusion: currentDate });
+    await handleChangeStatus(data._id);
+    await updateTask({ conclusion: currentDate });
   }
 
   return(
@@ -114,7 +112,7 @@ function Tarefas({data, handleDelete, handleChangeStatus}){
           {/* Campo de entrada de data */}
           <input
             type="date"
-            min={changedCompletionDate}
+            min={minDate.toISOString().split('T')[0]}
             value={changedCompletionDate}
             disabled={data.status === "Concluido" ? true : false}
             onChange={(e) => setChangedCompletionDate(e.target.value)}
