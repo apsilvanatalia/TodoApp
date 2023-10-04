@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Notes from '../Components/Tarefas/tarefa';
 import Menu from '../Components/Menu/menu';
 import api from "../Services/api";
 import FilterRadioButton from "../Components/Filter/filter-radio-button";
 import EndDatePicker from "../Components/DatePicker/date-picker";
+import showToast from '../Components/Toast/Toast'
+import {msgCreateSucess,msgDeletedSucess,msgCreateError} from '../Components/Toast/messages'
 
 import './global.css'
 import './sidebar.css'
@@ -22,6 +27,11 @@ function Tasks() {
   const userId = localStorage.getItem("userId");
 
   var today = new Date().toISOString().split('T')[0];
+
+  //const msgCreateSucess = 'Tarefa adicionada com sucesso.';
+  //const msgDeletedSucess = 'Tarefa excluida com sucesso.';
+  const messageWarn = 'Não foi possível criar tarefa. Tente novamente.';
+  const messageError = 'Não foi possível criar tarefa. Tente novamente.';
 
   useEffect(() => {
     getTarefas();
@@ -56,16 +66,33 @@ function Tasks() {
     }
   }
 
-  function handleDatePicker(e) {
-    setConclusion(e.value);
-  }
-
   async function handleDelete(id) {
-    const deletedTarefa = await api.delete(`/tarefas/${id}`);
+    const deletedTarefa = await api.delete(`/tarefas/${id}`)
+      .then(function (response){
+        if (response) {
+          setAllTarefas(allTarefas.filter(tarefa => tarefa._id !== id));
+          
+          showToast({
+            type: 'success',
+            message: response.data.success
+          })
+        }
+      })
+      .catch(function (error){
+        if (error.response.status >= 400 || error.response.status < 500) {
+          return showToast({
+            type: 'warn',
+            message: error.response.data.error
+          })
+        } if(error.response.status >= 500){
+          return showToast({
+            type: 'error',
+            message: msgCreateError
+          })
+        }
+      });
 
-    if (deletedTarefa) {
-      setAllTarefas(allTarefas.filter(tarefa => tarefa._id !== id));
-    }
+    
   }
 
   async function handleChangeStatus(id) {
@@ -87,18 +114,43 @@ function Tasks() {
       conclusion,
       status: "Pendente",
       userId,
-    });
+    })
+      .then(function (response) {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
 
-    setTitles('');
-    setTarefas('');
-    setConclusion('');
-
-    if (selectValue !== 'all') {
-      getTarefas();
-      setSelectValue('all');
-    } else {
-      setAllTarefas([...allTarefas, response.data]);
-    }
+        setTitles('');
+        setTarefas('');
+        setConclusion('');
+        
+        showToast({
+          type: 'success',
+          message: msgCreateSucess
+        })
+        
+        if (selectValue !== 'all') {
+          getTarefas();
+          setSelectValue('all');
+        } else {
+          setAllTarefas([...allTarefas, response.data]);
+        }
+      })
+      .catch(function (error) {
+        if (error.response.status >= 400 || error.response.status < 500) {
+          return showToast({
+            type: 'warn',
+            message: error.response.data.error
+          })
+        } if(error.response.status >= 500){
+          return showToast({
+            type: 'error',
+            message: msgCreateError
+          })
+        }
+      });
   }
 
   useEffect(() => {
@@ -112,12 +164,12 @@ function Tasks() {
     }
     enableSubmitButton();
   }, [title, description, conclusion]);
-
+  
   return (
     <div id="app">
       
       <Menu/>
-
+      <ToastContainer />
       <aside>
         <strong>Tarefa</strong>
         <form onSubmit={handleSubmit}>

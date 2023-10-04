@@ -19,9 +19,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        {/*<Route path="/login" element={<Login />} />
         <Route path="/tasks" element={isAuthenticated ? <Tasks /> : <Navigate to = "/login" />} />
-        <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
+        <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />*/}
+        <Route path="/tasks" element={<Tasks />} />
+        <Route path="/dashboard" element={<Dashboard /> } />
       </Routes>
     </Router>
   );
