@@ -114,7 +114,7 @@ module.exports = {
                     $gte: currentDate.toDate(),
                     $lt: moment(currentDate).endOf('day').toDate() // Fim do dia atual
                 },
-                status: { $ne: 'Concluida' } // Status diferente de 'Concluída'
+                status: { $ne: 'Concluido' } // Status diferente de 'Concluída'
             }, 'title conclusion status');
     
             if (tarefasHoje.length === 0) {
