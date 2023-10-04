@@ -19,11 +19,14 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/*<Route path="/login" element={<Login />} />
-        <Route path="/tasks" element={isAuthenticated ? <Tasks /> : <Navigate to = "/login" />} />
-        <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />*/}
-        <Route path="/tasks" element={<Tasks />} />
-        <Route path="/dashboard" element={<Dashboard /> } />
+        {/* Rota padrão redireciona para a página de login */}
+        <Route path="/" element={<Navigate to="/login" />} />
+        {/* Rota para a página de login */}
+        <Route path="/login" element={<Login />} />
+        {/* Rota para a página de tarefas, acessível apenas se autenticado */}
+        <Route path="/tasks" element={isAuthenticated ? <Tasks /> : <Navigate to="/login" />}/>
+        {/* Rota para a página de painel, acessível apenas se autenticado */}
+        <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}/>
       </Routes>
     </Router>
   );

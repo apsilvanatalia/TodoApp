@@ -1,21 +1,26 @@
 import React, { useState, useEffect, useCallback } from "react";
 import ReactApexChart from 'react-apexcharts';
-
 import api from "../Services/api";
-
-import Menu from '../Components/Menu/menu'
+import Menu from '../Components/Menu/menu';
+import './dash.css';
 
 const Dashboard = () => {
+  // Estado para armazenar as tarefas do usuário
   const [tasks, setTasks] = useState([]);
+  // Obtém o ID do usuário armazenado localmente
   const userId = localStorage.getItem("userId");
 
+  // Estado para armazenar dados do gráfico de pizza
   const [chartData, setChartData] = useState([]);
+  // Estado para armazenar dados do gráfico de barras
   const [barChartData, setBarChartData] = useState([]);
+  // Estado para armazenar dados da progressão de tarefas
   const [progressionChartData, setProgressionChartData] = useState({
     series: [],
     options: {},
   });
 
+  // Função para buscar as tarefas do usuário
   const fetchTasks = useCallback(async () => {
     try {
       const response = await api.get(`/tasks/user/${userId}`);
@@ -26,15 +31,19 @@ const Dashboard = () => {
     }
   }, [userId]);
 
+
+  // Função para buscar as tarefas mensais do usuário
   const fetchMonthlyTasks = useCallback(async () => {
     try {
       const response = await api.get(`/tasks/months/${userId}`);
       setBarChartData(response.data);
 
+      // Extrai dados para o gráfico de progressão de tarefas
       const pendenteData = response.data.map(item => item.pendente);
       const concluidaData = response.data.map(item => item.concluida);
       const mesesLabels = response.data.map(item => item.mes);
 
+      // Define os dados e opções para o gráfico de progressão de tarefas
       setProgressionChartData({
         series: [
           {
@@ -68,7 +77,7 @@ const Dashboard = () => {
           },
           legend: {
             tooltipHoverFormatter: function(val, opts) {
-              return val + ' - ' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + ''
+              return val + '  ' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + ''
             }
           },
           markers: {
@@ -108,11 +117,13 @@ const Dashboard = () => {
     }
   }, [userId]);
 
+  // Efeito para buscar as tarefas e tarefas mensais quando o componente é montado
   useEffect(() => {
     fetchTasks();
     fetchMonthlyTasks();
   }, [fetchTasks, fetchMonthlyTasks]);
 
+  // Configurações do gráfico de pizza
   const chartOptions = {
     chart: {
       width: 380,
@@ -135,6 +146,7 @@ const Dashboard = () => {
 
   const chartSeries = chartData.map(item => item.value);
 
+  // Configurações do gráfico de barras
   const barChartOptions = {
     chart: {
       type: 'bar',
@@ -187,18 +199,27 @@ const Dashboard = () => {
   ];
 
   return (
-    <div>
+    <div className="clearfix">
       <Menu/>
-      <div id="chart">
-        <ReactApexChart options={chartOptions} series={chartSeries} type="pie" width={380} />
+      <div className="table1">
+        <div className="chart-title">Gráfico de Pizza</div>
+        <div className="chart">
+          <ReactApexChart options={chartOptions} series={chartSeries} type="pie" width={380} />
+        </div>
       </div>
 
-      <div id="bar-chart">
-        <ReactApexChart options={barChartOptions} series={barChartSeries} type="bar" height={350} />
+      <div className="table2">
+        <div className="chart-title">Gráfico de Barras</div>
+        <div className="chart">
+          <ReactApexChart options={barChartOptions} series={barChartSeries} type="bar" height={350} />
+        </div>
       </div>
 
-      <div id="progression-chart">
-        <ReactApexChart options={progressionChartData.options} series={progressionChartData.series} type="line" height={350} />
+      <div className="table3">
+        <div className="chart-title">Progressão de Tarefas</div>
+        <div className="progression-chart">
+          <ReactApexChart options={progressionChartData.options} series={progressionChartData.series} type="line" height={350} />
+        </div>
       </div>
     </div>
   );

@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 import Notes from '../Components/Tarefas/tarefa';
 import Menu from '../Components/Menu/menu';
 import api from "../Services/api";
 import FilterRadioButton from "../Components/Filter/filter-radio-button";
-import EndDatePicker from "../Components/DatePicker/date-picker";
+import Modal from 'react-modal';
+import { AiOutlineWarning } from 'react-icons/ai';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import showToast from '../Components/Toast/Toast'
-import {msgCreateSucess,msgDeletedSucess,msgCreateError} from '../Components/Toast/messages'
 
 import './global.css'
 import './sidebar.css'
@@ -17,34 +15,51 @@ import './tasks.css'
 import './main.css'
 import '../Components/DatePicker/style.css'
 
-function Tasks() {
+Modal.setAppElement('#root');
 
+function Tasks() {
   const [title, setTitles] = useState('');
   const [description, setTarefas] = useState('');
   const [conclusion, setConclusion] = useState('');
   const [allTarefas, setAllTarefas] = useState([]);
   const [selectValue, setSelectValue] = useState('all');
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [tarefasProximas, setTarefasProximas] = useState([]);
   const userId = localStorage.getItem("userId");
 
-  var today = new Date().toISOString().split('T')[0];
+  const minDate = new Date();
+  minDate.setDate(minDate.getDate() - 1); // Define a data mínima como um dia antes do dia atual
 
-  //const msgCreateSucess = 'Tarefa adicionada com sucesso.';
+  const msgCreateSucess = 'Tarefa adicionada com sucesso.';
   //const msgDeletedSucess = 'Tarefa excluida com sucesso.';
   const messageWarn = 'Não foi possível criar tarefa. Tente novamente.';
   const messageError = 'Não foi possível criar tarefa. Tente novamente.';
 
   useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await api.get(`/tarefas/nearCompletion/${userId}`);
+        const tarefasProximas = response.data;
+
+        if (tarefasProximas.length > 0) {
+          setTarefasProximas(tarefasProximas);
+          setIsPopupOpen(true);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar tarefas próximas à conclusão:", error);
+      }
+    }
+
+    fetchData();
+  }, [userId]);
+
+  useEffect(() => {
     getTarefas();
-    today = new Date().toISOString().split('T')[0];
-    
   }, []);
 
   async function getTarefas() {
     const response = await api.get(`/tarefas/${userId}`,);
-
     setAllTarefas(response.data);
-
-    console.log(userId)
   }
 
   async function loadTarefas(option,userId) {
@@ -87,12 +102,10 @@ function Tasks() {
         } if(error.response.status >= 500){
           return showToast({
             type: 'error',
-            message: msgCreateError
+            message: error.response.data.error
           })
         }
       });
-
-    
   }
 
   async function handleChangeStatus(id) {
@@ -116,12 +129,6 @@ function Tasks() {
       userId,
     })
       .then(function (response) {
-        console.log(response.data);
-        console.log(response.status);
-        console.log(response.statusText);
-        console.log(response.headers);
-        console.log(response.config);
-
         setTitles('');
         setTarefas('');
         setConclusion('');
@@ -147,7 +154,7 @@ function Tasks() {
         } if(error.response.status >= 500){
           return showToast({
             type: 'error',
-            message: msgCreateError
+            message: error.response.data.error
           })
         }
       });
@@ -167,8 +174,7 @@ function Tasks() {
   
   return (
     <div id="app">
-      
-      <Menu/>
+      <Menu />
       <ToastContainer />
       <aside>
         <strong>Tarefa</strong>
@@ -191,15 +197,14 @@ function Tasks() {
               onChange={e => setTarefas(e.target.value)}
             />
           </div>
-
-          {/*<EndDatePicker/>*/}
           <div className='datePickerOp'>
             <label htmlFor="date">Conclusão</label>
             <div className='inputDate' >
               <div className='aaa'>
-                <input type="date"
+                <input 
+                  type="date"
                   require
-                  min={today}
+                  min={minDate.toISOString().split('T')[0]}
                   value={conclusion}
                   onChange={e => setConclusion(e.target.value)}
                 />
@@ -213,6 +218,7 @@ function Tasks() {
           handleFilter={handleFilter}
         />
       </aside>
+
       <main>
         <ul>
           {allTarefas.map(data => (
@@ -225,6 +231,39 @@ function Tasks() {
           ))}
         </ul>
       </main>
+
+      <Modal
+        isOpen={isPopupOpen}
+        onRequestClose={() => setIsPopupOpen(false)}
+        style={{
+          content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            padding: '20px',
+            borderRadius: '8px',
+          },
+          overlay: {
+            background: 'rgba(0, 0, 0, 0.5)',
+          },
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+          <AiOutlineWarning size={30} style={{ marginRight: '10px', color: '#eb8f7a' }} />
+          <h3>Atenção: Tarefas próximas à data de conclusão!</h3>
+        </div>
+        {tarefasProximas.map(tarefa => (
+          <div key={tarefa._id} style={{ marginBottom: '10px' }}>
+            <p><strong>Tarefa:</strong> {tarefa.title}</p>
+            <p><strong>Data de Conclusão:</strong> {new Date(tarefa.conclusion).toLocaleDateString()}</p>
+          </div>
+        ))}
+        <button style={{ background: '#eb8f7a', color: '#fff', padding: '10px 20px', border: 'none', cursor: 'pointer' }} onClick={() => setIsPopupOpen(false)}>Fechar</button>
+      </Modal>
+
     </div>
   );
 }
