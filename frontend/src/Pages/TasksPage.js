@@ -31,9 +31,6 @@ function Tasks() {
   minDate.setDate(minDate.getDate() - 1); // Define a data mínima como um dia antes do dia atual
 
   const msgCreateSucess = 'Tarefa adicionada com sucesso.';
-  //const msgDeletedSucess = 'Tarefa excluida com sucesso.';
-  const messageWarn = 'Não foi possível criar tarefa. Tente novamente.';
-  const messageError = 'Não foi possível criar tarefa. Tente novamente.';
 
   useEffect(() => {
     async function fetchData() {
