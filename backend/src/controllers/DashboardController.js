@@ -16,7 +16,7 @@ module.exports = {
             ]);
 
             const responseArray = tasksCount.map((result) => ({
-                name: result._id === "Concluida" ? "Concluida(s)" : "Pendente(s)",
+                name: result._id === "Concluido" ? "Concluido(s)" : "Pendente(s)",
                 value: result.count
             }));
 
@@ -55,7 +55,7 @@ module.exports = {
             monthlyTasks[monthYearKey] = {
               mes: monthNames[month],
               pendente: 0,
-              concluida: 0
+              concluido: 0
             };
           }
         
@@ -65,8 +65,8 @@ module.exports = {
             const monthYearKey = `${taskMonth}`.padStart(2, '0'); // Formato "MM"
             if (task.status === 'Pendente') {
               monthlyTasks[monthYearKey].pendente++;
-            } else if (task.status === 'Concluida') {
-              monthlyTasks[monthYearKey].concluida++;
+            } else if (task.status === 'Concluido') {
+              monthlyTasks[monthYearKey].concluido++;
             }
           });
         
